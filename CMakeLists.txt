@@ -193,7 +193,11 @@ if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR )
   # LLVMConfig), which trips -Werror=macro-redefined. Suppress that
   # specific warning -- it's an upstream duplication, not a code bug.
   if (LLVM_VERSION_MAJOR GREATER_EQUAL 22)
-    add_compile_options(-Wno-macro-redefined)
+    if (MSVC)
+      add_compile_options(/wd4005)
+    else()
+      add_compile_options(-Wno-macro-redefined)
+    endif()
   endif()
 
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/)
